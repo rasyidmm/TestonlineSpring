@@ -16,10 +16,6 @@ import com.example.testonlineme.repository.PesertaProfilRepository;
 
 @Service
 public class PesertaProfilServices implements PesertaProfilDAO {
-
-
-
-
 	@Autowired
 	PesertaProfilRepository pesertaprofilrepository;
 	@Autowired
@@ -55,7 +51,12 @@ public class PesertaProfilServices implements PesertaProfilDAO {
 		pesertaprofilrepository.delete(pp);
 		
 	}
-
+	public List<PesertaProfil> listPesertaProfilActive(){
+		return pesertaprofilrepository.listPesertaProfilActive();
+	}
+	public int jumlahpesertaprofil(){
+		return pesertaprofilrepository.jumlahpeserta().size();
+	}
 
 
 }

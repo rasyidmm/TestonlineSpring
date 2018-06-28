@@ -1,5 +1,7 @@
 package com.example.testonlineme.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -18,35 +20,32 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Soal extends Additional implements Serializable {
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "soal")
+    private List<PesertaJawabaDetail> pesertaJawabaDetails;
+    @JsonIgnore
+    @OneToMany(mappedBy = "soal")
+    private List<TestSubSoal> testSubSoals;
+    @JsonIgnore
     @OneToMany(mappedBy = "soal")
     private List<SoalPilihanJawaban> soalPilihanJawabans;
 
 
 
     private static long serialVersionUID = 1L;
-
-    public List<SoalPilihanJawaban> getSoalPilihanJawabans() {
-        return soalPilihanJawabans;
-    }
-
-    public void setSoalPilihanJawabans(List<SoalPilihanJawaban> soalPilihanJawabans) {
-        this.soalPilihanJawabans = soalPilihanJawabans;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 100, nullable = false)
     private String soal;
     @Basic(optional = false)
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private int nilai_soal;
     @ManyToOne
     private SoalKelompok soalKelompok;
     @ManyToOne
     private SoalType soalType;
-    
+
 
     public Long getId() {
         return id;
@@ -109,7 +108,7 @@ public class Soal extends Additional implements Serializable {
         this.soal = soal;
     }
 
-  
+
 
     /**
      * @return the soalKelompok
@@ -154,9 +153,50 @@ public class Soal extends Additional implements Serializable {
     }
 
     /**
+     * @return the pesertaJawabaDetails
+     */
+    public List<PesertaJawabaDetail> getPesertaJawabaDetails() {
+        return pesertaJawabaDetails;
+    }
+
+    /**
+     * @param pesertaJawabaDetails the pesertaJawabaDetails to set
+     */
+    public void setPesertaJawabaDetails(List<PesertaJawabaDetail> pesertaJawabaDetails) {
+        this.pesertaJawabaDetails = pesertaJawabaDetails;
+    }
+
+    /**
+     * @return the testSubSoals
+     */
+    public List<TestSubSoal> getTestSubSoals() {
+        return testSubSoals;
+    }
+
+    /**
+     * @param testSubSoals the testSubSoals to set
+     */
+    public void setTestSubSoals(List<TestSubSoal> testSubSoals) {
+        this.testSubSoals = testSubSoals;
+    }
+
+    /**
+     * @return the soalPilihanJawabans
+     */
+    public List<SoalPilihanJawaban> getSoalPilihanJawabans() {
+        return soalPilihanJawabans;
+    }
+
+    /**
+     * @param soalPilihanJawabans the soalPilihanJawabans to set
+     */
+    public void setSoalPilihanJawabans(List<SoalPilihanJawaban> soalPilihanJawabans) {
+        this.soalPilihanJawabans = soalPilihanJawabans;
+    }
+
+    /**
      * @return the soalTypes
      */
 
-    
-}
 
+}

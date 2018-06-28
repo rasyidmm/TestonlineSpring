@@ -59,24 +59,12 @@
                                                         th:value="${typesaol.id}"
                                                         th:text="${typesaol.nama_type_soal}"
                                                         th:selected="${Soal.getSoalType().id==typesaol.id}">
-
                                                 </option>
                                             </select>
-                                            <!-- <input type="button"  onclick="hohoho()" name=asdbsad"" value="sadasd"> -->
-                                            <!-- <i onclick="hohoho()">Try it</button> -->
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="box-body">
-                                        <div class="form-group">
-                                            <label>Jenis Pilihan</label>
-                                            <select class="form-control">
-                                                <option >1 piliahan</option>
-                                                <option>multi pilihan</option>
-                                            </select>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <input type="hidden" th:name="id" th:value="${Soal.id}">
@@ -203,5 +191,20 @@
 <script src="/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
+<script >
+    $(function () {
+        $('#example1').DataTable()
+        $('#example2').DataTable({
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : false,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : false
+        })
+    })
+</script>
+<script src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 </body>
 </html>

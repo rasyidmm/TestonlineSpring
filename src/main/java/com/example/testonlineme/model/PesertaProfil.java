@@ -26,7 +26,7 @@ public class PesertaProfil extends Additional implements Serializable {
     @Column(length = 100)
     private String nama_foto;
     @Basic(optional = false)
-    @Column(length = 100,nullable = false)
+    @Column(length = 100,nullable = false   )
     private String nama_peserta;
     @Basic(optional = false)
     @Column(length = 100,nullable = false)

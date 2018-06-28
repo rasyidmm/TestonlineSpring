@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.example.testonlineme.component.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,8 @@ public class PesertaServices  implements PesertaDAO{
 	PesertaRepository pesertarepository;
 	@Autowired
 	PesertaProfilRepository pesertaprofilrepository;
-
+	@Autowired
+	EmailServiceImpl emailServiceimpl;
 	@Override
 	public List<Peserta> getAllPeserta() {
 		List<Peserta> lp = new ArrayList<>();
@@ -37,6 +39,7 @@ public class PesertaServices  implements PesertaDAO{
 	@Override
 	public void SaveOrUpdate(Peserta p,PesertaProfil pp) {
 		try {
+//			emailServiceimpl.sendMessage(p.getEmail(),"test","halllooooo");
 			p = pesertarepository.save(p);
 			pp.setPeserta(p);
 			pesertaprofilrepository.save(pp);
@@ -71,10 +74,25 @@ public class PesertaServices  implements PesertaDAO{
 		pesertarepository.save(p);
 	}
 
+	@Override
+	public boolean getExisPassword(String password, String email) {
+		return pesertarepository.findByPassword(password,email)!=null;
+	}
+
 	public Peserta getlogin(String email, String password) {
 		return pesertarepository.findByEmailAndPassword(email, password);
 	}
 	
-	
+	public List<Peserta>findByPesertaBytestid(long id)
+	{
+		return pesertarepository.findByPesertaBytestid(id);
+	}
+
+	public int jumlahpeserta(){
+		return pesertarepository.listPesertaActive().size();
+	}
+	public List<Peserta>findPesertasByActive(){
+		return pesertarepository.listPesertaActive();
+	}
 }
 

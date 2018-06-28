@@ -44,4 +44,7 @@ public class AdminService implements AdminDAO {
     public Admin getLogin(String email, String password){
        return adminrepository.findByEmailAndPassword(email,password);
     }
+    public List<Admin> listAdminActive(){
+        return adminrepository.listAdminActive();
+    }
 }

@@ -3,9 +3,9 @@
 <head th:include="fragments/head :: head">
 <body class="hold-transition skin-blue layout-boxed sidebar-mini">
 <div class="wrapper">
-  <header th:include="fragments/header :: header" class="main-header"> </header> 
+  <header th:include="fragments/header :: header" class="main-header"> </header>
   <!-- Left side column. contains the logo and sidebar -->
-   <div  th:include="fragments/sidebar"></div>
+  <div  th:include="fragments/sidebar"></div>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -22,25 +22,26 @@
     </section>
 
     <!-- Main content -->
-  <section class="content">
+    <section class="content">
 
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
               <center>
-              <h3 class="box-title" >Psikotes</h3>
-            </center>
+                <h3 class="box-title" >Psikotes</h3>
+              </center>
             </div>
             <!-- /.box-header -->
 
 
             <div class="box-body">
               <a th:href="@{/tambahsoal}" type="button" class="btn  btn-primary">Tambah Soal</a>
+              <a th:href="@{/soalexport}" type="button" class="btn  btn-primary">Export Soal</a>
               </br>
               </br>
 
-              <table id="example2" class="table table-bordered table-hover">
+              <table id="example1" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                   <th width="30px"><center>No</center></th>
@@ -50,7 +51,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="soallist, iterStat:${ListSoal}">
-                  <td th:text="${soallist.id}"></td>
+                  <td th:text="${iterStat.count}"></td>
                   <td th:text="${soallist.soal}"></td>
 
                   <td ><center>
@@ -75,22 +76,22 @@
             </div>
             <!-- /.box-body -->
           </div>
-              <!-- /.row -->
+          <!-- /.row -->
         </div>
 
       </div>
 
 
 
-  </section>
-        <!-- right col -->
+    </section>
+    <!-- right col -->
 
-      <!-- /.row (main row) -->
+    <!-- /.row (main row) -->
 
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
- <footer  th:include="fragments/footer :: footer" class="main-footer"></footer>  
+  <footer  th:include="fragments/footer :: footer" class="main-footer"></footer>
 
   <!-- Control Sidebar -->
 
@@ -105,23 +106,23 @@
 <script src="/bower_components/jquery-ui/jquery-ui.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script th:inline="javascript">
-  $.widget.bridge('uibutton', $.ui.button);
-  $(function () {
-  $('#datepicker').datepicker({
-      autoclose: true
-    })
-  });
-  $(document).ready(function(){
-    $("#jenis_soal").change(function(){
-        var x = document.getElementById("hideme");
-      //$(x).toggle();
-        if (x.style.display == "none") {
-            x.style.display = "inline";
-        } else {
-            x.style.display = "none";
-        }
-      })
-  });
+    $.widget.bridge('uibutton', $.ui.button);
+    $(function () {
+        $('#datepicker').datepicker({
+            autoclose: true
+        })
+    });
+    $(document).ready(function(){
+        $("#jenis_soal").change(function(){
+            var x = document.getElementById("hideme");
+            //$(x).toggle();
+            if (x.style.display == "none") {
+                x.style.display = "inline";
+            } else {
+                x.style.display = "none";
+            }
+        })
+    });
 
 </script>
 
@@ -154,5 +155,20 @@
 <script src="/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
+<script >
+    $(function () {
+        $('#example1').DataTable()
+        $('#example2').DataTable({
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : false,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : false
+        })
+    })
+</script>
+<script src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 </body>
 </html>

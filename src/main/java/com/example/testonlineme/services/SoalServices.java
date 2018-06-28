@@ -3,9 +3,8 @@ package com.example.testonlineme.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.testonlineme.model.SoalKelompok;
 import com.example.testonlineme.model.SoalPilihanJawaban;
-import com.example.testonlineme.model.SoalType;
+import com.example.testonlineme.model.TestSubSoal;
 import com.example.testonlineme.repository.SoalPilihanJawabanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,6 +110,16 @@ public class SoalServices implements SoalDAO {
 	public void deletesemua(Soal s, List<SoalPilihanJawaban> ls) {
 		soalPilihanJawabanRepository.deleteAll(ls);
 		soalrepository.delete(s);
+	}
+	public List<Soal> findSoalBySubSoalid(long id){
+		return soalrepository.findSoalBySubSoalid(id);
+	}
+
+	public int jumlahSoal(){
+		return soalrepository.jumlahSoal().size();
+	}
+	public List<Soal>ListSoalByActive(){
+		return  soalrepository.ListSoalByActive();
 	}
 
 }

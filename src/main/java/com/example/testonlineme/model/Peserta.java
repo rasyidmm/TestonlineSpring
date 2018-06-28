@@ -1,5 +1,7 @@
 package com.example.testonlineme.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -16,15 +18,14 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Peserta extends Additional implements Serializable {
-
+    @JsonIgnore
     @OneToOne(mappedBy = "peserta")
     private PesertaProfil pesertaProfil;
 
-
-
     private static long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     @Basic(optional = false)
     @Column(length = 100,nullable = false,unique = true)
@@ -123,5 +124,5 @@ public class Peserta extends Additional implements Serializable {
     public void setPesertaProfil(PesertaProfil pesertaProfil) {
         this.pesertaProfil = pesertaProfil;
     }
-    
+
 }

@@ -30,7 +30,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Hover Data Table</h3>
+              <h3 class="box-title">Halaman Peserta</h3>
 
             </div>
             <!-- /.box-header -->
@@ -38,21 +38,22 @@
 
             <div class="box-body">
               <a th:href="@{/tambahpeserta}" type="button" class="btn  btn-primary">Tambah Peserta</a>
+              <a th:href="@{/exportpeserta}" type="button" class="btn  btn-primary">Export Peserta</a>
               </br>
               </br>
-              <table id="example2" class="table table-bordered table-hover">
+              <table id="example1" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                   <th width="30px">No</th>
                   <th width="200px">NAMA</th>
                   <th width="100px">EMAIL</th>
                   <th width="100px">Tanggal Lahir</th>
-                  <th width="150px">Aksi</th>
+                  <th width="200px">Aksi</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="pesertani, iterStat:${ListPesertaProfil}">
-                  <td th:value="${pesertani.id}" th:text="${pesertani.peserta.id}"></td>
+                  <td th:value="${pesertani.id}" th:text="${iterStat.count}"></td>
                   <td th:value="${pesertani.id}" th:text="${pesertani.nama_peserta}"></td>
                   <td th:value="${pesertani.id}" th:text="${pesertani.peserta.email}"></td>
                   <td th:value="${pesertani.id}" th:text="${pesertani.tanggal_lahir}"></td>
@@ -157,5 +158,20 @@
 <script src="/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
+<script >
+    $(function () {
+        $('#example1').DataTable()
+        $('#example2').DataTable({
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : false,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : false
+        })
+    })
+</script>
+<script src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 </body>
 </html>

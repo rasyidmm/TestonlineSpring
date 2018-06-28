@@ -27,17 +27,6 @@ public abstract class Additional {
     public Additional(){
     
     }
-    @PrePersist
-    public  void  onCreate(){
-        setCreateDate(new Date());
-        setCreateBy("Admin");
-        
-    }
-    @PreUpdate
-    public void onUpdate(){
-        setUpdateDate(new Date());
-        setUpdateBy("Admin");
-    }
 
     /**
      * @return the createDate

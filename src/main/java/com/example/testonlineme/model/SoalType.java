@@ -1,5 +1,7 @@
 package com.example.testonlineme.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -18,7 +20,7 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class SoalType extends Additional implements Serializable {
-
+    @JsonIgnore
     @OneToMany(mappedBy = "soalType")
     private List<Soal> soals;
 

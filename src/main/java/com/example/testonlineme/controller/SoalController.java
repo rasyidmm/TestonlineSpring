@@ -1,6 +1,7 @@
 package com.example.testonlineme.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.example.testonlineme.model.*;
@@ -18,6 +19,7 @@ import com.example.testonlineme.services.SoalTypeServices;
 @Controller
 @SessionAttributes("penggunaaktif")
 public class SoalController {
+	public Date updatedate;
 	@Autowired
 	SoalTypeServices soaltypeservices;
 	@Autowired
@@ -32,11 +34,11 @@ public class SoalController {
 	@RequestMapping(value="/propertitype",method = RequestMethod.GET)
 	public ModelAndView soaltye(@ModelAttribute("SoalType") SoalType st) {
 		return new ModelAndView("HalamanPropertiSoalType","ListSoalType",soaltypeservices.getAllSoalType());
-
 	}
-	
 	@RequestMapping(value = "/tambahtypesoal", method = RequestMethod.POST)
-	public String prosestypesoal(@ModelAttribute("SoalType") SoalType st) {
+	public String prosestypesoal(@ModelAttribute("SoalType") SoalType st,@SessionAttribute("penggunaaktif") Admin admins) {
+		st.setCreateBy(admins.getNama());
+		st.setCreateDate(new Date());
 		soaltypeservices.SaveOrUpdate(st);
 		return "redirect:propertitype";
 	}
@@ -44,9 +46,10 @@ public class SoalController {
 	public ModelAndView updateTypeSoal(@RequestParam("id")int id){
 		return new ModelAndView("HalamanUpdateSoalType","SoalType",soaltypeservices.getById(id));
 	}
-
 	@RequestMapping(value = "/updatetypesoal",method = RequestMethod.POST)
-	public String updateproses(@ModelAttribute("SoalType") SoalType st) {
+	public String updateproses(@ModelAttribute("SoalType") SoalType st,@SessionAttribute("penggunaaktif") Admin admins) {
+		st.setUpdateBy(admins.getNama());
+		st.setUpdateDate(new Date());
 		soaltypeservices.SaveOrUpdate(st);
 		return "redirect:propertitype";
 	}
@@ -61,7 +64,9 @@ public class SoalController {
 		return new ModelAndView("HalamanPropertiSoalKelompok","ListSoalKelompok",soalkelompokservice.getAllSoalKelompok());
 	}
 	@RequestMapping(value ="/kelompoksoal", method = RequestMethod.POST)
-	public String kelompoksoal(@ModelAttribute("SoalKelompok") SoalKelompok sk) {
+	public String kelompoksoal(@ModelAttribute("SoalKelompok") SoalKelompok sk,@SessionAttribute("penggunaaktif") Admin admins) {
+		sk.setCreateBy(admins.getNama());
+		sk.setCreateDate(new Date());
 		soalkelompokservice.SaveOrUpdate(sk);
 		return "redirect:propertikelompok";
 	}
@@ -69,9 +74,10 @@ public class SoalController {
 	public ModelAndView updateKelompokSoal(@RequestParam("id")int id){
 		return new ModelAndView("HalamanUpdateSoalKelompok","SoalKelompok",soalkelompokservice.getById(id));
 	}
-
 	@RequestMapping(value = "/updatekelompoksoal",method = RequestMethod.POST)
-	public String updateprosesKelompok(@ModelAttribute("SoalKelompok") SoalKelompok sk) {
+	public String updateprosesKelompok(@ModelAttribute("SoalKelompok") SoalKelompok sk,@SessionAttribute("penggunaaktif") Admin admins) {
+		sk.setUpdateBy(admins.getNama());
+		sk.setUpdateDate(new Date());
 		soalkelompokservice.SaveOrUpdate(sk);
 		return "redirect:propertikelompok";
 	}
@@ -83,7 +89,7 @@ public class SoalController {
 //==============================================SOAL===================================================================
 	@RequestMapping(value = "/soal")
 	public ModelAndView MasterSoal(@ModelAttribute("Soal") Soal s){
-		return new ModelAndView("HalamanSoal","ListSoal",soalservices.getAllSoal());
+		return new ModelAndView("HalamanSoal","ListSoal",soalservices.ListSoalByActive());
 	}
 	@RequestMapping(value = "/tambahsoal",method = RequestMethod.GET)
 	public ModelAndView formSoal(@ModelAttribute("SoalKelompok") SoalKelompok sk,@ModelAttribute("SoalType") SoalType st,@ModelAttribute("Soal") Soal s){
@@ -94,9 +100,10 @@ public class SoalController {
 		return mav;
 	}
 	@RequestMapping(value = "/tambahsoal", method = RequestMethod.POST)
-	public String insertSOal(@ModelAttribute("Soal") Soal s, @RequestParam("nama_type_soal") long nts, @RequestParam("nama_kelomok_soal") long nks,@RequestParam("pilihanjawaban1") String pl,@RequestParam("kuncijawaban1")int kj,@RequestParam("pilihanjawaban2") String pl1,@RequestParam("kuncijawaban2")int kj1,@ModelAttribute("Admin") Admin A){
-		s.setCreateBy("A");
-		s.setUpdateBy("A");
+	public String insertSOal(@SessionAttribute("penggunaaktif") Admin admins,@ModelAttribute("Soal") Soal s, @RequestParam("nama_type_soal") long nts, @RequestParam("nama_kelomok_soal") long nks,@RequestParam("pilihanjawaban1") String pl,@RequestParam("kuncijawaban1")int kj,@RequestParam("pilihanjawaban2") String pl1,@RequestParam("kuncijawaban2")int kj1,@ModelAttribute("Admin") Admin A){
+		s.setStatus("Active");
+		s.setCreateBy(admins.getNama());
+		s.setUpdateDate(new Date());
 		soalservices.SaveSoal(s,nts,nks,pl,kj,pl1,kj1);
 		return "redirect:soal";
 	}
@@ -113,15 +120,22 @@ public class SoalController {
 		return mav;
 	}
 	@RequestMapping(value = "/updatesoal",method = RequestMethod.POST)
-	public String proseUpdateSoal(@RequestParam("id") long id,@ModelAttribute("Soal") Soal s, @RequestParam("nama_type_soal") long nts, @RequestParam("nama_kelomok_soal") long nks, @RequestParam("id1")long idl, @RequestParam("pilihanjawaban1") String pl, @RequestParam("kuncijawaban1")int kj, @RequestParam("id2")long id2, @RequestParam("pilihanjawaban2") String pl1, @RequestParam("kuncijawaban2")int kj1){
+	public String proseUpdateSoal(@SessionAttribute("penggunaaktif") Admin admins,@RequestParam("id") long id,@ModelAttribute("Soal") Soal s, @RequestParam("nama_type_soal") long nts, @RequestParam("nama_kelomok_soal") long nks, @RequestParam("id1")long idl, @RequestParam("pilihanjawaban1") String pl, @RequestParam("kuncijawaban1")int kj, @RequestParam("id2")long id2, @RequestParam("pilihanjawaban2") String pl1, @RequestParam("kuncijawaban2")int kj1){
+		s.setStatus("Active");
+		s.setUpdateDate(new Date());
+		s.setUpdateBy(admins.getNama());
 		soalservices.updateSoal(id,s,nts,nks,idl,pl,kj,id2,pl1,kj1);
 		return "redirect:soal";
 	}
 	@RequestMapping(value = "/hapussoal")
-	public String deleteSoal(@RequestParam("id") long id){
+	public String deleteSoal(@RequestParam("id") long id,@SessionAttribute("penggunaaktif") Admin admins){
 		Soal s =  soalservices.getById(id);
+		s.setStatus("Disable");
+		s.setUpdateBy(admins.getNama());
+		s.setUpdateDate(new Date());
 		List<SoalPilihanJawaban> llks = s.getSoalPilihanJawabans();
-		soalservices.deletesemua(s,llks);
+		soalservices.SaveOrUpdate(s);
+//		soalservices.deletesemua(s,llks);
 		return "redirect:soal";
 	}
 	@RequestMapping(value = "/viewsoal")
@@ -130,5 +144,9 @@ public class SoalController {
 		mav.addObject("Soal",soalservices.getById(id));
 		mav.setViewName("HalamanViewSoal");
 		return mav;
+	}
+	@RequestMapping(value = "soalexport")
+	public ModelAndView export(){
+		return new ModelAndView("HalamanEksportSoal","ListSoal",soalservices.ListSoalByActive());
 	}
 }

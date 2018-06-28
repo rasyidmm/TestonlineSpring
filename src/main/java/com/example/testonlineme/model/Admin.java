@@ -13,12 +13,14 @@ import javax.persistence.Id;
  * @author rasyid
  */
 @Entity
-public class Admin implements Serializable {
+public class Admin extends Additional implements Serializable {
 
     private static long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 100,nullable = true)
+    private String nama_fotoadmin;
     @Basic(optional = false)
     @Column(nullable = false)
     private String nama;
@@ -30,9 +32,9 @@ public class Admin implements Serializable {
     private String password;
 
     public Admin(String nama, String email, String password) {
-        this.nama = nama;
-        this.email = email;
-        this.password = password;
+        this.setNama(nama);
+        this.setEmail(email);
+        this.setPassword(password);
     }
 
     public Admin() {
@@ -59,7 +61,7 @@ public class Admin implements Serializable {
             return false;
         }
         Admin other = (Admin) object;
-        return (this.getId() != null || other.getId() == null) && (this.getId() == null || this.id.equals(other.id));
+        return (this.getId() != null || other.getId() == null) && (this.getId() == null || this.getId().equals(other.getId()));
     }
 
     @Override
@@ -123,4 +125,11 @@ public class Admin implements Serializable {
         this.password = password;
     }
 
+    public String getNama_fotoadmin() {
+        return nama_fotoadmin;
+    }
+
+    public void setNama_fotoadmin(String nama_fotoadmin) {
+        this.nama_fotoadmin = nama_fotoadmin;
+    }
 }
